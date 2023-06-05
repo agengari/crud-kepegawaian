@@ -83,6 +83,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD Kepegawaian</title>
+    <link rel="stylesheet" href="inc/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body class="overflow-x-hidden">
@@ -119,8 +120,9 @@
                             <label for="tb_notelpon" class="form-label">No Telpon</label>
                             <input type="text" name="tb_notelpon" value="<?=@$var_notelpon?>" class="form-control">
                         </div>
-                        <div class="mb-1">
-                            <label for="select_jabatan" class="form-label">Pilih Jabatan</label>
+
+                        <label for="select_jabatan" class="form-label">Pilih Jabatan</label> <br\>
+                        <div class="mb-1 select-wrapper">
                             <select name="select_jabatan" value="<?=@$var_jabatan?>" class="form-control">
                                 <?php 
                                     $query = "SELECT id_jabatan, nama_jabatan FROM jabatan";
@@ -148,9 +150,11 @@
                                     }
                                 ?>
                             </select>
+                            <a href="jabatan.php" class="btn btn-secondary">Tambah Jabatan</a>
                         </div>
-                        <div class="mb-3">
-                            <label for="select_kontrak" class="form-label">Paket Kontrak</label>
+
+                        <label for="select_kontrak" class="form-label">Paket Kontrak</label> <br/>
+                        <div class="mb-3 select-wrapper">
                             <select name="select_kontrak" value="<?=@$var_kontrak?>" class="form-control">
                                 <?php 
                                     $query = "SELECT * FROM kontrak";
@@ -178,6 +182,7 @@
                                     }
                                 ?>
                             </select>
+                            <a href="kontrak.php" class="btn btn-secondary">Tambah Kontrak</a>
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary" name="btn_simpan" >Simpan</button>
