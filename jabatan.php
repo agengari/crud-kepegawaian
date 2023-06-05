@@ -5,45 +5,41 @@
         //data diedit atau disimpan
         if($_GET['hal'] == "edit"){
             //data akan diedit
-            $edit = mysqli_query($conn, "UPDATE pegawai set
-                                        nama = '$_POST[tb_nama]',
-                                        alamat = '$_POST[tb_alamat]',
-                                        no_telpon = '$_POST[tb_notelpon]',
-                                        id_jabatan = '$_POST[tb_jabatan]',
-                                        id_kontrak = '$_POST[tb_kontrak]'
-                                        WHERE id_pegawai = '$_GET[id]'
+            $edit = mysqli_query($conn, "UPDATE jabatan set
+                                        nama_jabatan = '$_POST[tb_namajabatan]',
+                                        deskripsi = '$_POST[tb_deskripsi]',
+                                        gaji = '$_POST[tb_gaji]'
+                                        WHERE id_jabatan = '$_GET[id]'
             ");
 
             if($edit){
                 echo"<script>
                     alert('Edit data Sukses!');
-                    document.location='index.php';
+                    document.location='jabatan.php';
                 </script>";
             }else{
                 echo"<script>
                     alert('Edit data Gagal!');
-                    document.location='index.php';
+                    document.location='jabatan.php';
                 </script>";
             }
         }else{
             //data akan disimpan baru
-            $simpan = mysqli_query($conn, "INSERT INTO pegawai (nama, alamat, no_telpon, id_jabatan, id_kontrak) VALUES (
-                '$_POST[tb_nama]',
-                '$_POST[tb_alamat]',
-                '$_POST[tb_notelpon]',
-                '$_POST[tb_jabatan]',
-                '$_POST[tb_kontrak]'
+            $simpan = mysqli_query($conn, "INSERT INTO jabatan (nama_jabatan, deskripsi, gaji) VALUES (
+                '$_POST[tb_namajabatan]',
+                '$_POST[tb_deskripsi]',
+                '$_POST[tb_gaji]'
             )");
 
             if($simpan){
                 echo"<script>
                     alert('Simpan data Sukses!');
-                    document.location='index.php';
+                    document.location='jabatan.php';
                 </script>";
             }else{
                 echo"<script>
                     alert('Simpan data gagal!');
-                    document.location='index.php';
+                    document.location='jabatan.php';
                 </script>";
             }
         }
@@ -54,22 +50,20 @@
         //edit data
         if($_GET['hal'] == "edit"){
             //tampilkan data yang diedit
-            $viewdata = mysqli_query($conn, "SELECT * FROM pegawai WHERE id_pegawai = '$_GET[id]' ");
+            $viewdata = mysqli_query($conn, "SELECT * FROM jabatan WHERE id_jabatan = '$_GET[id]' ");
             $data = mysqli_fetch_array($viewdata);
             if($data){ //jika data ditemukan, dimasukan dalam variabel yang tertampil di form sebagai value
-                $var_nama = $data['nama'];
-                $var_alamat = $data['alamat'];
-                $var_notelpon = $data['no_telpon'];
-                $var_jabatan = $data['id_jabatan'];
-                $var_kontrak = $data['id_kontrak'];
+                $var_namajabatan = $data['nama_jabatan'];
+                $var_deskripsi = $data['deskripsi'];
+                $var_gaji = $data['gaji'];
             }
         }else if($_GET['hal'] == "delete"){
             //persiapan hapus data
-            $delete = mysqli_query($conn, "DELETE FROM pegawai WHERE id_pegawai = '$_GET[id]' ");
+            $delete = mysqli_query($conn, "DELETE FROM jabatan WHERE id_jabatan = '$_GET[id]' ");
             if($delete){
                 echo "<script>
                     alert('Hapus data Sukses!');
-                    document.location='index.php';
+                    document.location='jabatan.php';
                 </script>";
             }
         }
@@ -82,11 +76,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Kepegawaian</title>
+    <title>CRUD Kepegawaian</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body class="overflow-x-hidden">
-    <section style="background-color: #f3f4f5;">
+    <section class="min-vh-100" style="background-color: #f3f4f5;">
 
         <!-- Include Navbar  -->
         <?php include "inc/navbar.php";?>
@@ -94,38 +88,30 @@
 
         <!-- Judul halaman -->
         <div class="mt-3">
-            <h3 class="row justify-content-center">Halaman Kepegawaian</h3>
+            <h3 class="row justify-content-center">Halaman Jabatan</h3>
         </div>
         <!-- Akhir judul halaman -->
 
-        <!-- Create/Edit data pegawai -->
+        <!-- Create/Edit data jabatan -->
         <div class="mx-auto row justify-content-center">
         <div class="col-md-8">
             <div class="card mt-3 mb-2">
                 <div class="card-header">
-                    Tambah/Edit Daftar Pegawai
+                    Tambah/Edit Jenis Jabatan
                 </div>
                 <div class="card-body">
                     <form action="" method="post">
                         <div class="mb-1">
-                            <label for="tb_nama" class="form-label">Nama</label>
-                            <input type="text" name="tb_nama" value="<?=@$var_nama?>" class="form-control">
+                            <label for="tb_namajabatan" class="form-label">Nama Jabatan</label>
+                            <input type="text" name="tb_namajabatan" value="<?=@$var_namajabatan?>" class="form-control">
                         </div>
                         <div class="mb-1">
-                            <label for="tb_alamat" class="form-label">Alamat</label>
-                            <input type="text" name="tb_alamat" value="<?=@$var_alamat?>" class="form-control">
-                        </div>
-                        <div class="mb-1">
-                            <label for="tb_notelpon" class="form-label">No Telpon</label>
-                            <input type="text" name="tb_notelpon" value="<?=@$var_notelpon?>" class="form-control">
-                        </div>
-                        <div class="mb-1">
-                            <label for="tb_jabatan" class="form-label">Jabatan</label>
-                            <input type="text" name="tb_jabatan" value="<?=@$var_jabatan?>" class="form-control">
+                            <label for="tb_deskripsi" class="form-label">Deskripsi</label>
+                            <input type="text" name="tb_deskripsi" value="<?=@$var_deskripsi?>" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="tb_kontrak" class="form-label">Sisa Kontrak</label>
-                            <input type="text" name="tb_kontrak" value="<?=@$var_kontrak?>" class="form-control">
+                            <label for="tb_gaji" class="form-label">Gaji</label>
+                            <input type="text" name="tb_gaji" value="<?=@$var_gaji?>" class="form-control">
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary" name="btn_simpan" >Simpan</button>
@@ -136,50 +122,49 @@
             </div>
         </div>
         </div>
-        <!-- Akhir create/edit data pegawai -->
+        <!-- Akhir create/edit data jabatan -->
 
 
 
-        <!-- Read data tabel pegawai -->
-        <div class="mx-auto row justify-content-center">
+        <!-- Read data tabel jabatan -->
+        <div class="mx-auto row justify-content-center pb-5">
         <div class="col-md-10">
             <div class="card mt-3 mb-2">
                 <div class="card-header">
-                    Daftar Pegawai
+                    Daftar Jabatan
                 </div>
                 <div class="card-body overflow-x-auto">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nama</th>
-                                <th>Alamat</th>
-                                <th>No Telpon</th>
-                                <th>Jabatan</th>
-                                <th>Sisa Kontrak</th>
+                                <th>Nama Jabatan</th>
+                                <th>Deskripsi</th>
+                                <th>Gaji</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php 
                                 $no=1;
-                                $result = mysqli_query($conn, "SELECT * FROM pegawai 
-                                INNER JOIN jabatan ON pegawai.id_jabatan = jabatan.id_jabatan
-                                INNER JOIN kontrak ON pegawai.id_kontrak = kontrak.id_kontrak");
+                                $result = mysqli_query($conn, "SELECT * FROM jabatan");
                                 while ($data = mysqli_fetch_array($result)) :
                             ?>
                                 <tr>
                                     <td><?=$no++;?></td>
-                                    <td><?=$data['nama']?></td>
-                                    <td><?=$data['alamat']?></td>
-                                    <td><?=$data['no_telpon']?></td>
                                     <td><?=$data['nama_jabatan']?></td>
-                                    <td><?=$data['id_kontrak']?></td>
+                                    <td><?=$data['deskripsi']?></td>
+                                    <td>
+                                        <?php
+                                            $gaji = number_format($data['gaji'], 0, ',', '.');
+                                            echo "Rp " . $gaji . ",-";
+                                        ?>
+                                    </td>
                                     <td class="text-center">
-                                        <a href="index.php?hal=edit&id=<?=$data['id_pegawai']?>">
+                                        <a href="jabatan.php?hal=edit&id=<?=$data['id_jabatan']?>">
                                             <button type="button" class="btn btn-warning">Edit</button>
                                         </a>
-                                        <a href="index.php?hal=delete&id=<?=$data['id_pegawai']?>">
+                                        <a href="jabatan.php?hal=delete&id=<?=$data['id_jabatan']?>">
                                             <button type="button" class="btn btn-danger">Delete</button>
                                         </a>
                                     </td>
@@ -191,7 +176,7 @@
             </div>
         </div>
         </div>
-        <!-- Akhir read data tabel pegawai -->
+        <!-- Akhir read data tabel jabatan -->
     
     </section>
     
